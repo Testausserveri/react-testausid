@@ -3,21 +3,52 @@
     padding: 0;
     margin: 0;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
 .loginButtons ul li {
     border-radius: 6rem;
     background-color: #242424;
-    padding: 0.4rem;
-    display: flex;
+    padding: 0.8rem;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    cursor: pointer;
+    mix-blend-mode:screen;
+    position: relative;
+    overflow: hidden;
+    -webkit-appearance: none;
+
 }
 
 .loginButtons ul li span:nth-child(1) {
     font-size: 1.3rem;
     margin-top: 0.3rem;
+    position: absolute;
+    left: 1.3rem;
+}
+
+.loginButtons ul li img:nth-child(1) {
+    max-width: 1.3rem;
+    max-height: 1.3rem;
+    opacity: 0.8;
+}
+
+.loginButtons ul li * {
+    pointer-events: none;
+}
+
+.ripple {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255,255,255,0.15);
+    border-radius: 100px;
+    position: absolute;
+    transform: scale(var(--size));
+    transition: transform 0.2s;
+}
+.ripple.visible {
+    transform: scale(1) !important;
 }

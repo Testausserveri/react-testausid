@@ -2,7 +2,7 @@ import styles from './Target.module.css'
 
 import React from 'react'
 
-export function Target({image, name}) {
+export function Target({ image, name }) {
   return (
     <div className={styles.target}>
       <div className={styles.image}>

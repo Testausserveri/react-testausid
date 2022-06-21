@@ -15,13 +15,22 @@ export function LoginDialog() {
     scopes: ['token', 'id', 'account', 'contact', 'security']
   }
 
+  const accept = [
+    'discord',
+    'google',
+    'twitter',
+    'github',
+    'testausserveri',
+    'wilmaplus'
+  ]
+
   return (
     <div className={styles.loginDialog}>
       <Header />
       <Target image={target.image} name={target.name} />
       <Instruction />
-      <LoginButtons />
-      <Permissions scopes={target.scopes} />
+      <LoginButtons accept={accept} />
+      <Permissions name={target.name} scopes={target.scopes} />
     </div>
   )
 }
