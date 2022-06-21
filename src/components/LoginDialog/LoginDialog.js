@@ -8,14 +8,20 @@ import { LoginButtons } from '../LoginButtons/LoginButtons'
 import { Permissions } from '../Permissions/Permissions'
 
 export function LoginDialog() {
-  // eslint-disable-next-line prettier/prettier
+  const target = {
+    name: 'Torimies',
+    image:
+      'https://cdn.discordapp.com/avatars/746084561062068345/fa4ccd88f599bc6b890c8db7528f64b6.webp?width=702&height=702',
+    scopes: ['token', 'id', 'account', 'contact', 'security']
+  }
+
   return (
     <div className={styles.loginDialog}>
       <Header />
-      <Target />
+      <Target image={target.image} name={target.name} />
       <Instruction />
       <LoginButtons />
-      <Permissions />
+      <Permissions scopes={target.scopes} />
     </div>
   )
 }
