@@ -11,7 +11,7 @@ export function Header() {
         <MdKeyboardBackspace />
       </button>
       <div className={styles.logo}>
-        <img src={logo} alt='logo' />
+        <img src={logo.src || logo} alt='logo' />
       </div>
     </div>
   )

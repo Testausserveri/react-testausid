@@ -26,11 +26,16 @@ const loginProviders = {
   },
   testausserveri: {
     title: 'Jäsenet',
-    Icon: () => <img src={testausserveri} />
+    Icon: () => <img src={testausserveri.src || testausserveri} />
   },
   wilmaplus: {
     title: 'Wilma Plus',
-    Icon: () => <img src={wilmaplus} style={{ transform: 'scale(1.3)' }} />
+    Icon: () => (
+      <img
+        src={wilmaplus.src || wilmaplus}
+        style={{ transform: 'scale(1.3)' }}
+      />
+    )
   }
 }
 
