@@ -6,7 +6,6 @@ import { FaDiscord, FaGoogle, FaTwitter, FaGithub } from 'react-icons/fa'
 import testausserveri from '../../assets/providers/testausserveri.svg'
 import wilmaplus from '../../assets/providers/wilmaplus.svg'
 
-
 const loginProviders = {
   discord: {
     title: 'Discord',
@@ -67,7 +66,8 @@ function LoginButton({ data }) {
       onTouchEnd={() => setSize(0)}
       onTouchMove={(e) => onTouchMove(e)}
       onClick={() => setSize(0)}
-      onMouseMove={(e) => onMouseMove(e)}>
+      onMouseMove={(e) => onMouseMove(e)}
+    >
       <span>
         <data.Icon />
       </span>
