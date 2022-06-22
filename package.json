@@ -4,11 +4,12 @@
   "author": "Testausserveri",
   "license": "MIT",
   "repository": "Testausserveri/react-testausid",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "engines": {
     "node": ">=10"
   },
   "scripts": {
+    "build": "babel src --out-dir dist --copy-files",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
     "test:lint": "eslint .",
@@ -20,6 +21,10 @@
     "build-storybook": "build-storybook"
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
