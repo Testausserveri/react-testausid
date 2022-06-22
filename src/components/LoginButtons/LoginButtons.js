@@ -1,41 +1,20 @@
 import styles from './LoginButtons.module.css'
 
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { FaDiscord, FaGoogle, FaTwitter, FaGithub } from 'react-icons/fa'
 
 import testausserveri from '../../assets/providers/testausserveri.svg'
 import wilmaplus from '../../assets/providers/wilmaplus.svg'
 
-const loginProviders = {
-  discord: {
-    title: 'Discord',
-    Icon: FaDiscord
-  },
-  google: {
-    title: 'Google',
-    Icon: FaGoogle
-  },
-  twitter: {
-    title: 'Twitter',
-    Icon: FaTwitter
-  },
-  github: {
-    title: 'GitHub',
-    Icon: FaGithub
-  },
-  testausserveri: {
-    title: 'Jäsenet',
-    Icon: () => <img src={testausserveri.src || testausserveri} />
-  },
-  wilmaplus: {
-    title: 'Wilma Plus',
-    Icon: () => (
-      <img
-        src={wilmaplus.src || wilmaplus}
-        style={{ transform: 'scale(1.3)' }}
-      />
-    )
-  }
+const loginProviderIcons = {
+  discord: () => <FaDiscord />,
+  google: () => <FaGoogle />,
+  twitter: () => <FaTwitter />,
+  github: () => <FaGithub />,
+  members: () => <img src={testausserveri.src || testausserveri} />,
+  wilmaplus: () => (
+    <img src={wilmaplus.src || wilmaplus} style={{ transform: 'scale(1.3)' }} />
+  )
 }
 
 function LoginButton({ data }) {
@@ -56,6 +35,10 @@ function LoginButton({ data }) {
     ripple.current.style.left = `${touch.clientX - rect.left - 50}px`
   }
 
+  const Icon = (
+    loginProviderIcons[data.name.toLowerCase().replace(/ /g, '')] ?? (() => '?')
+  )()
+
   return (
     <li
       onMouseLeave={() => setSize(0)}
@@ -68,21 +51,27 @@ function LoginButton({ data }) {
       onClick={() => setSize(0)}
       onMouseMove={(e) => onMouseMove(e)}
     >
-      <span>
-        <data.Icon />
-      </span>
-      <span>{data.title}</span>
+      <span>{Icon}</span>
+      <span>{data.name}</span>
       <div ref={ripple} className={styles.ripple} style={{ '--size': size }} />
     </li>
   )
 }
 
-export function LoginButtons({ accept }) {
+export function LoginButtons() {
+  // Fetch login methods
+  const [data, setData] = useState([])
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    fetch('https://id.testausserveri.fi/api/v1/methods')
+      .then((methods) => methods.json())
+      .then((methods) => setData(methods))
+  }, [])
   return (
     <div className={styles.loginButtons}>
       <ul>
-        {accept.map((provider) => (
-          <LoginButton key={provider} data={loginProviders[provider]} />
+        {data.map((method, index) => (
+          <LoginButton key={index} data={method} />
         ))}
       </ul>
     </div>
