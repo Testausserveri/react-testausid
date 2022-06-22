@@ -7,12 +7,12 @@ import testausserveri from '../../assets/providers/testausserveri.svg'
 import wilmaplus from '../../assets/providers/wilmaplus.svg'
 
 const loginProviderIcons = {
-  discord: () => <FaDiscord />,
-  google: () => <FaGoogle />,
-  twitter: () => <FaTwitter />,
-  github: () => <FaGithub />,
-  members: () => <img src={testausserveri.src || testausserveri} />,
-  wilmaplus: () => (
+  discord: <FaDiscord />,
+  google: <FaGoogle />,
+  twitter: <FaTwitter />,
+  github: <FaGithub />,
+  members: <img src={testausserveri.src || testausserveri} />,
+  wilmaplus: (
     <img src={wilmaplus.src || wilmaplus} style={{ transform: 'scale(1.3)' }} />
   )
 }
@@ -35,9 +35,8 @@ function LoginButton({ data }) {
     ripple.current.style.left = `${touch.clientX - rect.left - 50}px`
   }
 
-  const Icon = (
-    loginProviderIcons[data.name.toLowerCase().replace(/ /g, '')] ?? (() => '?')
-  )()
+  const Icon =
+    loginProviderIcons[data.name.toLowerCase().replace(/ /g, '')] ?? '?'
 
   return (
     <li
