@@ -57,6 +57,7 @@
   "dependencies": {
     "@tippyjs/react": "^4.2.6",
     "babel-plugin-react-css-modules": "^5.2.6",
+    "load-styles": "^2.0.0",
     "react-icons": "^4.4.0"
   }
 }
