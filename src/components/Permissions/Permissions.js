@@ -8,7 +8,7 @@ import {
 } from 'react-icons/md'
 import { TbLockAccess, TbSnowflake } from 'react-icons/tb'
 import Tippy from '@tippyjs/react'
-import 'tippy.js/dist/tippy.css'
+// import 'tippy.js/dist/tippy.css'
 
 const permissions = {
   token: {

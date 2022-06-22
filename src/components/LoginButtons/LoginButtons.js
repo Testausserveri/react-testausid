@@ -19,7 +19,7 @@ const loginProviderIcons = {
 
 function LoginButton({ data }) {
   if (!data) return <li>Tuntematon</li>
-
+  if (data.loading) return <li>&nbsp;</li>
   const ripple = useRef()
   const [size, setSize] = useState(0)
 
@@ -59,7 +59,7 @@ function LoginButton({ data }) {
 
 export function LoginButtons() {
   // Fetch login methods
-  const [data, setData] = useState([])
+  const [data, setData] = useState(Array(6).fill({ loading: true }))
   useEffect(() => {
     // eslint-disable-next-line no-undef
     fetch('https://id.testausserveri.fi/api/v1/methods')
