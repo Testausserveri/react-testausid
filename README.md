@@ -1,3 +1,7 @@
+![Group 8](https://user-images.githubusercontent.com/46541386/175104828-f67b3e36-e899-4303-936b-af6e1a22a82a.png)
+
+
+
 # react-testausid [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 React component user interface for [testausid](https://github.com/Testausserveri/testausserveri-id). Currently under development.
