@@ -51,6 +51,10 @@
     "react-scripts": "^3.4.1",
     "storybook-css-modules": "^1.0.8"
   },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
   "files": [
     "dist"
   ],
