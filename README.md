@@ -6,6 +6,9 @@
 
 React component user interface for [testausid](https://github.com/Testausserveri/testausserveri-id). Currently under development.
 
+> **Warning**
+> 
+> This project is under active development and the implementation is subject to change at any time. Please consult the maintaners regarding to implementing react-testausid in your project.
 ## Usage
 
 Add react-testausid to your project:
@@ -48,15 +51,30 @@ If you're using Next.js, you may need to disable SSR for this component to work.
 
 ## Development
 
-Clone this repository and [testausserveri/testausserveri.fi](https://github.com/testausserveri/testausserveri.fi) to your local machine. Make sure to run `npm install --save-dev` on both repositories before continuing.
-
-Link React dependencies into `react-testausid` from `testausserveri.fi`, so they use the same copy of React.
-```bash
-$ npm link ../testausserveri.fi/node_modules/react ../testausserveri.fi/node_modules/react-dom
+1. Check your Node.js version (.nvmrc), if you're using nvm, you can apply the right version using command:
+```
+$ nvm use
+```
+2. Install dependencies
+```
+$ npm install
 ```
 
-Run Storybook to start previewing your changes.
-```bash
-$ npm run storybook
+Finally, you can preview your changes to the React components using Storybook:
+```
+$ npm run storybook
 ```
 
+### Previewing in Coal
+
+To preview in [testausserveri/testausserveri.fi/coal](https://github.com/Testausserveri/testausserveri.fi/tree/coal), first set up your development environment by checking node version and installing dependencies there.
+
+To use your local development copy of react-testausid, first run the following command in react-testausid:
+```
+$ npm link
+```
+
+Next, run the following in Coal (check the relative path):
+```
+$ npm link ../react-testausid
+```
