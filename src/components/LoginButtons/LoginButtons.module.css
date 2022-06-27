@@ -20,7 +20,7 @@
     position: relative;
     overflow: hidden;
     -webkit-appearance: none;
-
+    font-size: 0.9rem;
 }
 
 .loginButtons ul li span:nth-child(1) {
