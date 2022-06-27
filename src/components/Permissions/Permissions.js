@@ -7,7 +7,7 @@ import {
   MdOutlinePermContactCalendar
 } from 'react-icons/md'
 import { TbLockAccess, TbSnowflake } from 'react-icons/tb'
-import Tippy from '@tippyjs/react'
+// import Tippy from '@tippyjs/react'
 // import 'tippy.js/dist/tippy.css'
 
 const permissions = {
@@ -41,14 +41,12 @@ const permissions = {
 function Permission({ data }) {
   if (!data) return <li>Tuntematon</li>
   return (
-    <Tippy className={styles.tip} content={data.description}>
-      <li>
-        <span>
-          <data.Icon />
-        </span>
-        <span>{data.title}</span>
-      </li>
-    </Tippy>
+    <li>
+      <span>
+        <data.Icon />
+      </span>
+      <span>{data.title}</span>
+    </li>
   )
 }
 export function Permissions({ name, scopes }) {
