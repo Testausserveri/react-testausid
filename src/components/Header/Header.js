@@ -4,12 +4,14 @@ import logo from '../../assets/logo.svg'
 import React from 'react'
 import { MdKeyboardBackspace } from 'react-icons/md'
 
-export function Header() {
+export function Header({ onClose }) {
   return (
     <div className={styles.header}>
-      <button>
-        <MdKeyboardBackspace />
-      </button>
+      {onClose ? (
+        <button onClick={onClose}>
+          <MdKeyboardBackspace />
+        </button>
+      ) : null}
       <div className={styles.logo}>
         <img src={logo.src || logo} alt='logo' />
       </div>
