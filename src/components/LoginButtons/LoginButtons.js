@@ -57,7 +57,7 @@ function LoginButton({ data }) {
   )
 }
 
-export function LoginButtons() {
+export function LoginButtons({ setLoginState }) {
   // Fetch login methods
   const [data, setData] = useState(Array(6).fill({ loading: true }))
   useEffect(() => {
@@ -66,11 +66,15 @@ export function LoginButtons() {
       .then((methods) => methods.json())
       .then((methods) => setData(methods))
   }, [])
+
+  const loginDummy = () =>
+    setLoginState({ state: 'logged in', data: { sub: 'dummy' } })
+
   return (
     <div className={styles.loginButtons}>
       <ul>
         {data.map((method, index) => (
-          <LoginButton key={index} data={method} />
+          <LoginButton onClick={loginDummy} key={index} data={method} />
         ))}
       </ul>
     </div>

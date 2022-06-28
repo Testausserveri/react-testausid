@@ -7,13 +7,19 @@ import { Instruction } from '../Instruction/Instruction'
 import { LoginButtons } from '../LoginButtons/LoginButtons'
 import { Permissions } from '../Permissions/Permissions'
 
-export function LoginDialog({ onClose, target, accept, onClick }) {
+export function LoginDialog({
+  onClose,
+  target,
+  accept,
+  onClick,
+  setLoginState
+}) {
   return (
     <div className={styles.loginDialog} onClick={onClick}>
       <Header onClose={onClose} />
       <Target image={target.image} name={target.name} />
       <Instruction />
-      <LoginButtons accept={accept} />
+      <LoginButtons accept={accept} setLoginState={setLoginState} />
       <Permissions name={target.name} scopes={target.scopes} />
     </div>
   )
