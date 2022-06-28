@@ -6,6 +6,7 @@
     "fetch": "readonly",
     "XMLHttpRequest": "readonly",
     "Headers": "readonly",
-    "Blob": "readonly"
+    "Blob": "readonly",
+    "Image": "readonly"
   }
 }
