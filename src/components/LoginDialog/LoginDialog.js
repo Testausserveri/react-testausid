@@ -33,6 +33,7 @@ import OAuthHost from '../../util/OAuthHost'
  * @property {*} target (DEV) Storybook manual login target data
  * @property {*} accept (DEV) Storybook manual login methods accepted
  * @property {*} onClick (DEV) Storybook manual login methods click event emitted
+ * @property {string[]} scopes Testausid login scopes
  * @property {string} client Your Testausid client ID
  * @property {onLoginFunction} onLogin Function triggered when the user has logged in successfully
  */
@@ -47,6 +48,7 @@ export function LoginDialog({
   target,
   accept,
   onClick,
+  scopes,
   client,
   onLogin
 }) {
@@ -54,7 +56,7 @@ export function LoginDialog({
   useEffect(() => {
     // Fetch the application information
     // TODO: Somehow display home URL?
-    if (target && !client)
+    if (target !== undefined && !client)
       setApplication({
         target: target.name,
         image: target.image
@@ -73,7 +75,7 @@ export function LoginDialog({
           })
         )
     }
-  }, [])
+  }, {})
 
   const loginCallback = (user) => {
     // Basic wrapper for now
@@ -88,7 +90,6 @@ export function LoginDialog({
         user
       )
   }
-
   return (
     <div className={styles.loginDialog} onClick={onClick}>
       <Header onClose={onClose} />
@@ -99,12 +100,12 @@ export function LoginDialog({
         client={client}
         callback={loginCallback}
         scopes={
-          target.scopes ?? // eslint-disable-next-line prettier/prettier
+          scopes ?? // eslint-disable-next-line prettier/prettier
           (new URL(window.location.href).searchParams.get('scope') ?? '').split(',')} />
       <Permissions
         name={application.target}
         scopes={
-          target.scopes ?? // eslint-disable-next-line prettier/prettier
+          scopes ?? // eslint-disable-next-line prettier/prettier
           (new URL(window.location.href).searchParams.get('scope') ?? '').split(',')
         }
       />
