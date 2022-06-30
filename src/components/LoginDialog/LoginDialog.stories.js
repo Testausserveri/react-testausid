@@ -17,5 +17,5 @@ Primary.args = {
       'https://cdn.discordapp.com/avatars/746084561062068345/fa4ccd88f599bc6b890c8db7528f64b6.webp?width=702&height=702',
     scopes: ['id', 'account', 'contact', 'security']
   },
-  client: '29009777875350578869462533326609160110'
+  client: false // Add your client ID here!
 }

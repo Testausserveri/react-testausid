@@ -115,15 +115,13 @@ async function popOpenLogin(method, client, scopes) {
       }
     })
   ).json()
-  // TODO: Implement callback to UI
-  // eslint-disable-next-line no-undef
-  alert(JSON.stringify(user))
+  return user
 }
 
 /**
  * @param {{ accept: string[] }} param0 Either method IDs or names
  */
-export function LoginButtons({ accept, client, scopes }) {
+export function LoginButtons({ accept, client, scopes, callback }) {
   // Fetch login methods
   const [data, setData] = useState(Array(6).fill({ loading: true }))
   useEffect(() => {
@@ -151,7 +149,7 @@ export function LoginButtons({ accept, client, scopes }) {
           <LoginButton
             key={index}
             data={method}
-            onClick={() => {
+            onClick={async () => {
               if (window.location.host === 'id.testausserveri.fi') {
                 // Use redirect login
                 window.location.href.replace(
@@ -161,7 +159,8 @@ export function LoginButtons({ accept, client, scopes }) {
                 )
               } else {
                 // Use popup login
-                popOpenLogin(method, client, scopes)
+                const user = await popOpenLogin(method, client, scopes)
+                callback(user)
               }
             }}
           />
