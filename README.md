@@ -23,13 +23,12 @@ import { LoginDialog } from "@testausserveri/react-testausid"
 function Example() {
     // App info and requested scopes
     const target = {
-        name: 'Torimies',
-        image:
-            'https://cdn.discordapp.com/avatars/746084561062068345/fa4ccd88f599bc6b890c8db7528f64b6.webp?width=702&height=702',
-        scopes: ['token', 'id', 'account', 'contact', 'security']
+        scopes: ['token', 'id', 'account', 'contact', 'security'],
+        client: '123456...' // Your client ID (required)
     }
 
     // Login options allowed for display
+    // Note: IF YOU WANT TO LIMIT/FORCE CERTAIN METHODS: Always validate the user used the platform you specified after the login!
     const accept = [
         'discord',
         'google',
@@ -41,7 +40,9 @@ function Example() {
 
     return (
         <div>
-            <LoginDialog target={target} accept={accept} />
+            <LoginDialog target={target} accept={accept} onLogin={(user) => {
+                alert('New login! ' + JSON.stringify(user))
+            }}/>
         </div>
     )
 }
