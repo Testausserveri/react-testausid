@@ -8,5 +8,8 @@
     "Headers": "readonly",
     "Blob": "readonly",
     "Image": "readonly"
+  },
+  "rules": {
+    "react/jsx-no-undef": [1, { "allowGlobals": true }]
   }
 }
