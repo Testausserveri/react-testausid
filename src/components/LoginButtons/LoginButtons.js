@@ -62,7 +62,7 @@ function LoginButton({ data, onClick }) {
   )
 }
 
-async function popOpenLogin(method, client, scopes) {
+async function popOpenLogin(method, client, scopes, onBlocked) {
   // Popup settings
   const settings = {
     menubar: false,
@@ -95,6 +95,14 @@ async function popOpenLogin(method, client, scopes) {
     'Kirjaudu...',
     params
   )
+
+  // TODO: How should we handle this?
+  if (popup === null) {
+    const error = new Error("react-testausid popup was blocked")
+    if (onBlocked && typeof onBlocked === "function") onBlocked(error)
+    throw new Error("react-testausid popup was blocked")
+  }
+
   // TODO: Cover/disable action on main page
   await new Promise((resolve) => {
     const interval = setInterval(() => {
@@ -121,7 +129,7 @@ async function popOpenLogin(method, client, scopes) {
 /**
  * @param {{ accept: string[] }} param0 Either method IDs or names
  */
-export function LoginButtons({ accept, client, scopes, callback }) {
+export function LoginButtons({ accept, client, scopes, callback, onBlocked }) {
   // Fetch login methods
   const [data, setData] = useState(Array(6).fill({ loading: true }))
   useEffect(() => {
@@ -159,7 +167,7 @@ export function LoginButtons({ accept, client, scopes, callback }) {
                 )
               } else {
                 // Use popup login
-                const user = await popOpenLogin(method, client, scopes)
+                const user = await popOpenLogin(method, client, scopes, onBlocked)
                 callback(user)
               }
             }}

@@ -28,6 +28,11 @@ import OAuthHost from '../../util/OAuthHost'
  */
 
 /**
+ * @callback onBlockedFunction
+ * @param {Error} error
+ */
+
+/**
  * @typedef LoginDialog
  * @property {Function} onClose Function triggered when the dialog close event is emitted
  * @property {*} target (DEV) Storybook manual login target data
@@ -36,6 +41,7 @@ import OAuthHost from '../../util/OAuthHost'
  * @property {string[]} scopes Testausid login scopes
  * @property {string} client Your Testausid client ID
  * @property {onLoginFunction} onLogin Function triggered when the user has logged in successfully
+ * @property {onBlockedFunction} onBlocked Function triggered if the browser blocks the login process
  */
 
 /**
@@ -50,7 +56,8 @@ export function LoginDialog({
   onClick,
   scopes,
   client,
-  onLogin
+  onLogin,
+  onBlocked
 }) {
   const [application, setApplication] = useState({})
   useEffect(() => {
@@ -99,6 +106,7 @@ export function LoginDialog({
         accept={accept}
         client={client}
         callback={loginCallback}
+        onBlocked={onBlocked}
         scopes={
           scopes ?? // eslint-disable-next-line prettier/prettier
           (new URL(window.location.href).searchParams.get('scope') ?? '').split(',')} />

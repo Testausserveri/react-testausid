@@ -40,7 +40,7 @@ function Example() {
 
     return (
         <div>
-            <LoginDialog target={target} accept={accept} onLogin={(user) => {
+            <LoginDialog target={target} accept={accept} onBlocked={(error) => { alert(error) }} onLogin={(user) => {
                 alert('New login! ' + JSON.stringify(user))
             }}/>
         </div>
