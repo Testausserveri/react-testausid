@@ -42,6 +42,7 @@ import OAuthHost from '../../util/OAuthHost'
  * @property {string} client Your Testausid client ID
  * @property {onLoginFunction} onLogin Function triggered when the user has logged in successfully
  * @property {onBlockedFunction} onBlocked Function triggered if the browser blocks the login process
+ * @property {boolean} onlyToken Should the login return only the TestausID login token without user information (useful for passing-on to a backend component)
  */
 
 /**
@@ -57,7 +58,8 @@ export function LoginDialog({
   scopes,
   client,
   onLogin,
-  onBlocked
+  onBlocked,
+  onlyToken
 }) {
   const [application, setApplication] = useState({})
   useEffect(() => {
@@ -107,6 +109,7 @@ export function LoginDialog({
         client={client}
         callback={loginCallback}
         onBlocked={onBlocked}
+        onlyToken={onlyToken}
         scopes={
           scopes ?? // eslint-disable-next-line prettier/prettier
           (new URL(window.location.href).searchParams.get('scope') ?? '').split(',')} />

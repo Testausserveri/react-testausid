@@ -62,7 +62,7 @@ function LoginButton({ data, onClick }) {
   )
 }
 
-async function popOpenLogin(method, client, scopes, onBlocked) {
+async function popOpenLogin(method, client, scopes, onBlocked, onlyToken) {
   // Popup settings
   const settings = {
     menubar: false,
@@ -79,7 +79,7 @@ async function popOpenLogin(method, client, scopes, onBlocked) {
     .join(',')
 
   const authenticateRequest = await fetch(
-    `${OAuthHost}/api/v1/authenticate?client_id=${client}&scope=${scopes}&redirect_uri=${window.location.origin}&response_type=token&noRedirect`
+    `${OAuthHost}/api/v2/authenticate?client_id=${client}&scope=${scopes}&redirect_uri=${window.location.origin}&response_type=token&noRedirect`
   )
   if (authenticateRequest.status !== 200)
     throw new Error(
@@ -116,6 +116,7 @@ async function popOpenLogin(method, client, scopes, onBlocked) {
   })
   popup.close()
   const token = popup.window.location.href.split('token=')[1].split('&')[0]
+  if (onlyToken) return { token }
   const user = await (
     await fetch(`${OAuthHost}/api/v1/me`, {
       headers: {
@@ -129,7 +130,7 @@ async function popOpenLogin(method, client, scopes, onBlocked) {
 /**
  * @param {{ accept: string[] }} param0 Either method IDs or names
  */
-export function LoginButtons({ accept, client, scopes, callback, onBlocked }) {
+export function LoginButtons({ accept, client, scopes, callback, onBlocked, onlyToken }) {
   // Fetch login methods
   const [data, setData] = useState(Array(6).fill({ loading: true }))
   useEffect(() => {
@@ -167,7 +168,7 @@ export function LoginButtons({ accept, client, scopes, callback, onBlocked }) {
                 )
               } else {
                 // Use popup login
-                const user = await popOpenLogin(method, client, scopes, onBlocked)
+                const user = await popOpenLogin(method, client, scopes, onBlocked, onlyToken)
                 callback(user)
               }
             }}
