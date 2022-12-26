@@ -23,7 +23,7 @@ import { LoginDialog } from "@testausserveri/react-testausid"
 function Example() {
     // App info and requested scopes
     const target = {
-        scopes: ['token', 'id', 'account', 'contact', 'security'],
+        scopes: ['token', 'id', 'account', 'contact', 'security'], // At least one required
         client: '123456...' // Your client ID (required)
     }
 
@@ -38,9 +38,15 @@ function Example() {
         'wilmaplus'
     ]
 
+    // Which login mode to use
+    // Available options are "popup-only", which uses a login popup and "prefer-popup" or "tab", which fallback and use a new tab to display the login
+    // The login mode defaults to "popup-only", as you need to create a dedicated token redirect page with the TokenChild component in it
+    // and supply that page's url as redirectURI to the LoginDialog component.
+    const loginMode = 'popup-only'
+
     return (
         <div>
-            <LoginDialog target={target} accept={accept} onBlocked={(error) => { alert(error) }} onLogin={(user) => {
+            <LoginDialog target={target} accept={accept} mode={loginMode} onBlocked={(error) => { alert(error) }} onLogin={(user) => {
                 alert('New login! ' + JSON.stringify(user))
             }}/>
         </div>
