@@ -131,6 +131,16 @@ async function fetchUser(token) {
   ).json()
 }
 
+/**
+ * Process login session
+ * @param {string} methodId
+ * @param {string} client
+ * @param {string} scopes
+ * @param {boolean} onlyToken
+ * @param {string} mode
+ * @param {string} redirectURI
+ * @returns {Promise<{ token: string }|{ token: string, id: string, name: string, account: *, security: *, contact: *, scopes: string[], applicationId: string, platform: { id: string, name: string } }>}
+ */
 export async function login(
   methodId,
   client,
