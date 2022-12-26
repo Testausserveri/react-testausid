@@ -1,12 +1,12 @@
 /* eslint-global fetch */
 import styles from './LoginButtons.module.css'
-import OAuthHost from '../../util/OAuthHost'
 
 import React, { useRef, useState, useEffect } from 'react'
 import { FaDiscord, FaGoogle, FaTwitter, FaGithub } from 'react-icons/fa'
 
 import testausserveri from '../../assets/providers/testausserveri.svg'
 import wilmaplus from '../../assets/providers/wilmaplus.svg'
+import { getMethods, login, redirectToLogin } from '../../util/Login'
 
 const loginProviderIcons = {
   discord: <FaDiscord />,
@@ -62,75 +62,19 @@ function LoginButton({ data, onClick }) {
   )
 }
 
-async function popOpenLogin(method, client, scopes, onBlocked, onlyToken) {
-  // Popup settings
-  const settings = {
-    menubar: false,
-    toolbar: false,
-    location: false,
-    status: false,
-    resizable: false,
-    width: 500,
-    height: 800
-  }
-
-  const params = Object.keys(settings)
-    .map((key) => `${key}=${settings[key]}`)
-    .join(',')
-
-  const authenticateRequest = await fetch(
-    `${OAuthHost}/api/v2/authenticate?client_id=${client}&scope=${scopes}&redirect_uri=${window.location.origin}&response_type=token&noRedirect`
-  )
-  if (authenticateRequest.status !== 200)
-    throw new Error(
-      'Unable to begin popup session. Make sure this origin is an allowed redirect URI.'
-    )
-
-  const redirectId = (await authenticateRequest.text())
-    .split('state=')[1]
-    .split('&')[0]
-
-  const popup = window.open(
-    `${OAuthHost}/api/v1/login?state=${redirectId}&method=${method.id}`,
-    'Kirjaudu...',
-    params
-  )
-
-  // TODO: How should we handle this?
-  if (popup === null) {
-    const error = new Error("react-testausid popup was blocked")
-    if (onBlocked && typeof onBlocked === "function") onBlocked(error)
-    throw new Error("react-testausid popup was blocked")
-  }
-
-  // TODO: Cover/disable action on main page
-  await new Promise((resolve) => {
-    const interval = setInterval(() => {
-      try {
-        if (popup.window.location.href.includes('token=')) {
-          clearInterval(interval)
-          resolve()
-        }
-      } catch (_) {}
-    }, 500)
-  })
-  popup.close()
-  const token = popup.window.location.href.split('token=')[1].split('&')[0]
-  if (onlyToken) return { token }
-  const user = await (
-    await fetch(`${OAuthHost}/api/v1/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-  ).json()
-  return user
-}
-
 /**
  * @param {{ accept: string[] }} param0 Either method IDs or names
  */
-export function LoginButtons({ accept, client, scopes, callback, onBlocked, onlyToken }) {
+export function LoginButtons({
+  accept,
+  client,
+  scopes,
+  callback,
+  onBlocked,
+  onlyToken,
+  mode,
+  redirectURI
+}) {
   // Fetch login methods
   const [data, setData] = useState(Array(6).fill({ loading: true }))
   useEffect(() => {
@@ -140,15 +84,14 @@ export function LoginButtons({ accept, client, scopes, callback, onBlocked, only
       ).split(',')
     }
 
-    fetch('https://id.testausserveri.fi/api/v1/methods')
-      .then((methods) => methods.json())
-      .then((methods) =>
-        setData(
-          accept[0] !== '*' // eslint-disable-next-line prettier/prettier
-            ? methods.filter((method) => accept.includes(method.id) || accept.includes(method.name.replace(/ /g, "").toLowerCase()))
-            : methods
-        )
+    // Set available methods
+    getMethods().then((methods) => {
+      setData(
+        accept[0] !== '*' // eslint-disable-next-line prettier/prettier
+          ? methods.filter((method) => accept.includes(method.id) || accept.includes(method.name.replace(/ /g, "").toLowerCase()))
+          : methods
       )
+    })
   }, [])
 
   return (
@@ -160,16 +103,20 @@ export function LoginButtons({ accept, client, scopes, callback, onBlocked, only
             data={method}
             onClick={async () => {
               if (window.location.host === 'id.testausserveri.fi') {
-                // Use redirect login
-                window.location.href.replace(
-                  `/api/v1/login?state=${new URL(
-                    window.location
-                  ).searchParams.get('state')}&method=${method.id}`
-                )
+                // Use redirect login while displaying on the main login page
+                redirectToLogin(method.id)
               } else {
-                // Use popup login
-                const user = await popOpenLogin(method, client, scopes, onBlocked, onlyToken)
-                callback(user)
+                // Login
+                // TODO: onBlocked logic
+                const loginResult = await login(
+                  method.id,
+                  client,
+                  scopes,
+                  onlyToken,
+                  mode,
+                  redirectURI
+                )
+                callback(loginResult)
               }
             }}
           />

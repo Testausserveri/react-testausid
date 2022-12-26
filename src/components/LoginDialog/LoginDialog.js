@@ -42,7 +42,9 @@ import OAuthHost from '../../util/OAuthHost'
  * @property {string} client Your Testausid client ID
  * @property {onLoginFunction} onLogin Function triggered when the user has logged in successfully
  * @property {onBlockedFunction} onBlocked Function triggered if the browser blocks the login process
- * @property {boolean} onlyToken Should the login return only the TestausID login token without user information (useful for passing-on to a backend component)
+ * @property {boolean?} onlyToken Should the login return only the TestausID login token without user information (useful for passing-on to a backend component)
+ * @property {"prefer-popup"|"popup-only"|"tab"} mode Which way of displaying the login we should use
+ * @property {string} redirectURI Where to redirect new login tab, incase mode is "tab" or "prefer-popup"
  */
 
 /**
@@ -59,7 +61,9 @@ export function LoginDialog({
   client,
   onLogin,
   onBlocked,
-  onlyToken
+  onlyToken,
+  mode,
+  redirectURI
 }) {
   const [application, setApplication] = useState({})
   useEffect(() => {
@@ -112,7 +116,10 @@ export function LoginDialog({
         onlyToken={onlyToken}
         scopes={
           scopes ?? // eslint-disable-next-line prettier/prettier
-          (new URL(window.location.href).searchParams.get('scope') ?? '').split(',')} />
+          (new URL(window.location.href).searchParams.get('scope') ?? '').split(',')}
+        mode={mode ?? 'popup-only'} // Has to default to popup-only
+        redirectURI={redirectURI}
+      />
       <Permissions
         name={application.target}
         scopes={
