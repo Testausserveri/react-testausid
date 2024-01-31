@@ -13,7 +13,7 @@ React component user interface for [testausid](https://github.com/Testausserveri
 
 Add react-testausid to your project:
 ```bash
-$ npm install react-testausid
+$ npm install @testausserveri/react-testausid
 ```
 
 Example LoginDialog implementation (subject to change!):
